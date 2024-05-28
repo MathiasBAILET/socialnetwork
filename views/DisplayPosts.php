@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Social Network (PHP Course))</title>
+  <title>Social Network (PHP Course)</title>
   <meta charset="UTF-8">
   <link rel="icon" type="image/png" href="img/icon.png">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -30,15 +30,30 @@
       </ul>
       <ul class="navbar-nav">
         <li class="nav-item">
+          <form class="nav-link" method="get">
+            <input name="search" type="text"></input>
+          </form>
+        </li>
+    <?php
+        if (isset($_SESSION['userId'])) {
+        ?>
+        <li class="nav-item">
+          <a class="nav-link" href="?action=logout" role="button">Logout</a>
+        </li>
+    <?php
+      } else {
+    ?>
+        <li class="nav-item">
           <a class="nav-link" href="?action=login" role="button">Login</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="?action=register" role="button">Sign Up</a>
         </li>
+    <?php
+      }
+    ?>
       </ul>
-    </div>
-  </header>
-
+  </header> 
   <div class="container">
     <div class="row">
       <div class="col">
@@ -48,6 +63,20 @@
             incididunt ut labore et dolore magna aliqua.</p>
           <footer class="blockquote-footer">Maybe someone famous from <cite>Internet</cite></footer>
         </blockquote>
+        <?php
+        if (isset($_SESSION['userId'])) {
+        ?>
+          <div class="row newMsg">
+            <div class="col">
+              <form class="input-group" method="POST" action="?action=newMsg">
+                <input name="msg" class="form-control" placeholder="Add a message" type="text">
+                <button type="submit" class="btn btn-primary">Submit</button>    
+              </form>
+            </div>
+          </div>
+        <?php
+        }
+        ?>
       </div>
     </div>
     <div class="row">
@@ -94,6 +123,22 @@
                     }
                   }
                   ?>
+                  <?php
+                  if (isset($_SESSION['userId'])) {
+                  ?>
+                    <div class="input-group">
+                      <form class="input-group" method="POST" action="?action=newComment">
+                        <input name="postId" type="hidden" value="<?= $onePost['id'] ?>">
+                        <input name="comment" class="form-control" placeholder="Add a comment" type="text">
+                        <span class="input-group-text">
+                          <a href="#" onclick="$(this).closest('form').submit()"><i class="fa fa-edit"></i></a>
+                        </span>
+                      </form>
+                    </div>
+                  <?php
+                  }
+                  ?>
+
                 </ul>
               </div>
             </div>
